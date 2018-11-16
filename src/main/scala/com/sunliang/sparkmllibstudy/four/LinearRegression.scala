@@ -11,8 +11,10 @@ import org.apache.spark.{SparkConf, SparkContext}
 object LinearRegression {
 
   def main(args: Array[String]): Unit = {
+
     val conf = new SparkConf().setMaster("local").setAppName("LinearRegression")
     val sc = new SparkContext(conf)
+    //System.setProperty("hadoop.home.dir","D://ProgramFiles//winutils-master//hadoop-2.6.3//bin")
 
     //val data_path = "D://work//testdata//000000_0//ex0.txt"
     val data_path = args(0)
@@ -54,7 +56,7 @@ object LinearRegression {
     println(s"Test RMSE = $rmse.")
 
     //6 模型保存
-    //val ModelPath = "D://work//testdata//000000_0"
+    //val ModelPath = "D://work//testdata//000000_0//linear"
     val ModelPath = args(1)
     model.save(sc,ModelPath)
     val sameModel = LinearRegressionModel.load(sc,ModelPath)
