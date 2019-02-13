@@ -14,7 +14,7 @@ object Naive_Bayes {
     val conf = new SparkConf().setMaster("local").setAppName("NaiveBayes")
     val sc = new SparkContext(conf)
 
-    val data = sc.textFile("")
+    val data = sc.textFile("D://work//testdata//000000_0//bayes//bayes1.txt")
     val parseData = data.map { line =>
       val parts = line.split(",")
       LabeledPoint(parts(0).toDouble,Vectors.dense(parts(1).split(" ").map(_.toDouble)))
@@ -34,10 +34,11 @@ object Naive_Bayes {
     }
 
     val accuracy = 1.0 * predictionAndLabel.filter(x => x._1 == x._2).count() / test.count()
+    println("accuracy=" + accuracy)
 
-    val ModelPath = ""
-    model.save(sc,ModelPath)
-    val sameModel = NaiveBayesModel.load(sc,ModelPath)
+    //val ModelPath = ""
+    //model.save(sc,ModelPath)
+    //val sameModel = NaiveBayesModel.load(sc,ModelPath)
   }
 
 }

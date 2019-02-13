@@ -10,9 +10,10 @@ import org.apache.spark.{SparkConf, SparkContext}
 object svm {
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf().setMaster("local").setAppName("svm")
-    val sc = new SparkContext(sc)
+    val sc = new SparkContext(conf)
 
-    val data = MLUtils.loadLibSVMFile(sc,"")
+    val data = MLUtils.loadLibSVMFile(sc,"D://work//testdata//000000_0//svm//svm1.txt")
+    //val data = MLUtils.loadLibSVMFile(sc,"D://work//testdata//000000_0//logistic//logistic2.txt")
 
     val splits = data.randomSplit(Array(0.6,0.4),seed = 11L)
     val training = splits(0).cache()
@@ -35,9 +36,9 @@ object svm {
     val accuracy = 1.0 * predictionAndLabel.filter(x => x._1 == x._2).count() / test.count()
     println("area under ROC = " + accuracy)
 
-    val ModelPath = ""
-    model.save(sc,ModelPath)
-    val sameModel = SVMModel.load(sc,ModelPath)
+    //val ModelPath = ""
+    //model.save(sc,ModelPath)
+    //val sameModel = SVMModel.load(sc,ModelPath)
 
   }
 }

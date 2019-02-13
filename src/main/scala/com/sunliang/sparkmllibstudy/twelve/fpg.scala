@@ -9,9 +9,9 @@ import org.apache.spark.{SparkConf, SparkContext}
 object fpg {
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf().setMaster("local").setAppName("fpg")
-    val sc = new SparkContext(sc)
+    val sc = new SparkContext(conf)
 
-    val data_path = ""
+    val data_path = "D://work//testdata//000000_0//fpg//fpg1.txt"
     val data = sc.textFile(data_path)
     val examples = data.map(_.split(" ")).cache()
 

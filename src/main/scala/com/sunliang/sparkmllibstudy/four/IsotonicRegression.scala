@@ -13,15 +13,15 @@ object IsotonicRegression {
     val conf = new SparkConf().setMaster("local").setAppName("IsotonicRegression")
     val sc = new SparkContext(conf)
 
-    val data = sc.textFile("")
+    val data = sc.textFile("D://work//testdata//000000_0//isotonic//isotonic2.txt")
     val parseData = data.map { line =>
       val parts = line.split(",").map(_.toDouble)
       (parts(0),parts(1),1.0)
     }
 
-    val splits = parseData.randomSplit(Array(0.6,0.4),seed = 11L)
+    val splits = parseData.randomSplit(Array(1.0,0.0),seed = 11L)
     val training = splits(0)
-    val test = splits(1)
+    val test = splits(0)
 
     val model = new IsotonicRegression().setIsotonic(true).run(training)
     val x = model.boundaries
@@ -36,20 +36,20 @@ object IsotonicRegression {
       (predictedblabel,point._1)
     }
 
-    val print_predict = predictionAndLabel.take(20)
+    val print_predict = predictionAndLabel.take(200)
     println("prediction" + "\t" + "label")
     for(i <- 0 to print_predict.length - 1) {
       println(print_predict(i)._1 + "\t" + print_predict(i)._2)
     }
 
-    val meanSquareError = predictionAndLabel.map{
-      case(p,1) => math.pow((p-1),2 )
-    }.mean()
-    println("Mean Squared Error = " + meanSquareError)
+    //val meanSquareError = predictionAndLabel.map{
+    //  case(p,1) => math.pow((p-1),2 )
+    //}.mean()
+    //println("Mean Squared Error = " + meanSquareError)
 
-    val modelPath = ""
+/*    val modelPath = ""
     model.save(sc,modelPath)
-    val sameModel = IsotonicRegressionModel.load(sc,modelPath)
+    val sameModel = IsotonicRegressionModel.load(sc,modelPath)*/
 
   }
 

@@ -14,11 +14,11 @@ object LogisticRegression {
 
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf().setMaster("local").setAppName("LogisticRegression")
-    val sc = new SparkContext(sc)
+    val sc = new SparkContext(conf)
 
-    val data = MLUtils.loadLibSVMFile(sc,"")
+    val data = MLUtils.loadLibSVMFile(sc,"D://work//testdata//000000_0//logistic//logistic2.txt")
 
-    val splits = data.randomSplit(Array(0.6,0.4),seed = 11L)
+    val splits = data.randomSplit(Array(0.8,0.2),seed = 11L)
     val training = splits(0).cache()
     val test = splits(1)
 
@@ -30,7 +30,7 @@ object LogisticRegression {
         (prediction,label)
     }
 
-    val print_predict = predictionAndLabels.take(20)
+    val print_predict = predictionAndLabels.take(200)
     println("prediction" + "\t" + "label")
     for(i <- 0 to print_predict.length - 1 ) {
       println(print_predict(i)._1 + "\t" + print_predict(i)._2)

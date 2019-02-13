@@ -10,11 +10,12 @@ object als1 {
 
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf().setMaster("local").setAppName("als1")
-    val sc = new SparkContext(sc)
+    val sc = new SparkContext(conf)
 
-    val data = sc.textFile("")
+    val data = sc.textFile("D://work//testdata//000000_0//als//als1.txt")
     val ratings = data.map(_.split(",") match {
       case Array(user,item,rate) =>
+        println("user=" + user.toInt + " item=" + item.toInt + " rate=" + rate.toDouble)
         Rating(user.toInt,item.toInt,rate.toDouble)
     })
 
@@ -45,9 +46,9 @@ object als1 {
     }.mean()
     println("Mean Squared Error = " +  MSE)
 
-    val ModelPath = ""
-    model.save(sc,ModelPath)
-    val sameModel = MatrixFactorizationModel.load(sc,ModelPath)
+    //val ModelPath = ""
+    //model.save(sc,ModelPath)
+    //val sameModel = MatrixFactorizationModel.load(sc,ModelPath)
   }
 
 }

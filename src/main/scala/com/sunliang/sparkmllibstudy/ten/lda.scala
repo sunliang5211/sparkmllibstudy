@@ -11,9 +11,9 @@ import org.apache.spark.{SparkConf, SparkContext}
 object lda {
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf().setMaster("local").setAppName("lda")
-    val sc = new SparkContext(sc)
+    val sc = new SparkContext(conf)
 
-    val data = sc.textFile("")
+    val data = sc.textFile("D://work//testdata//000000_0//lda//lda1.txt")
     val parseData = data.map(s => Vectors.dense(s.trim.split(" ").map(_.toDouble)))
     val corpus = parseData.zipWithIndex.map(_.swap).cache()
 
